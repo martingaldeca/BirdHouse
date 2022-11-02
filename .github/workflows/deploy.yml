@@ -51,9 +51,18 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd BirdHouse
+            
+            echo "Pulling changes"
             git pull --ff-only 
+            
+            echo "Updating production settings"
             rm settings/production.py
             echo TELEGRAM_TOKEN="${{ secrets.TELEGRAM_TOKEN }}" >> settings/production.py
             echo TELEGRAM_CHAT_ID="${{ secrets.TELEGRAM_CHAT_ID }}" >> settings/production.py
             echo TELEGRAM_SIGHTING_MESSAGE="${{ secrets.TELEGRAM_SIGHTING_MESSAGE }}" >> settings/production.py
-            nohup python main.py &
+            
+            echo "Killing previous"
+            ps axf | grep "python main.py" | grep -v grep | awk '{print "kill -9 " $1}'
+            echo "Starting new"
+            nohup python main.py > nohup.out 2> nohup.err < /dev/null &
+            echo "Started"
