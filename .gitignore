@@ -214,3 +214,5 @@ cython_debug/
 ### Project excludes
 logs/birdHouse.log
 database/birdHouse.db
+settings/testing.py
+last_sighting.jpg

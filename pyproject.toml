@@ -13,6 +13,7 @@ SQLAlchemy = "^1.4.42"
 pytest = "^7.2.0"
 flake8 = "^5.0.4"
 ipdb = "^0.13.9"
+python-telegram-bot = "^13.14"
 
 [tool.poetry.dev-dependencies]
 

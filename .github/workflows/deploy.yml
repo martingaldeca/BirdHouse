@@ -38,6 +38,7 @@ jobs:
 
   production:
     runs-on: ubuntu-latest
+    needs: [tests, flake8]
     if: github.ref == 'refs/heads/production'
     steps:
       - name: Checkout
@@ -60,7 +61,8 @@ jobs:
             echo TELEGRAM_TOKEN="${{ secrets.TELEGRAM_TOKEN }}" >> settings/production.py
             echo TELEGRAM_CHAT_ID="${{ secrets.TELEGRAM_CHAT_ID }}" >> settings/production.py
             echo TELEGRAM_SIGHTING_MESSAGE="${{ secrets.TELEGRAM_SIGHTING_MESSAGE }}" >> settings/production.py
-            
+            touch settings/testing.py
+                        
             echo "Killing previous"
             ps axf | grep "python main.py" | grep -v grep | awk '{print "kill -9 " $1}'
             echo "Starting new"
