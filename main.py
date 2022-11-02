@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
     logger.info('Starting main loop')
     while True:
-        data = serial_port.readline().decode().replace('\r\n', '')
+        data = serial_port.readline().decode().replace('\r', '').replace('\n', '')
         if data:
             value = int(data)
             if value:

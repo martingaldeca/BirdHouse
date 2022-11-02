@@ -56,4 +56,4 @@ jobs:
             echo TELEGRAM_TOKEN="${{ secrets.TELEGRAM_TOKEN }}" >> settings/production.py
             echo TELEGRAM_CHAT_ID="${{ secrets.TELEGRAM_CHAT_ID }}" >> settings/production.py
             echo TELEGRAM_SIGHTING_MESSAGE="${{ secrets.TELEGRAM_SIGHTING_MESSAGE }}" >> settings/production.py
-            python main.py &
+            nohup python main.py &
