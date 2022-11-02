@@ -35,3 +35,24 @@ jobs:
         run: |
           poetry install --no-interaction
           poetry run flake8
+
+  production:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/production'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Access to ip
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd BirdHouse
+            git pull
+            rm settings/production.py
+            echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }}\n >> settings/production.py
+            echo TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}\n >> settings/production.py
+            echo TELEGRAM_SIGHTING_MESSAGE=${{ secrets.TELEGRAM_SIGHTING_MESSAGE }}\n >> settings/production.py
