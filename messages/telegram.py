@@ -1,4 +1,4 @@
-import requests
+import os
 import logging
 from logging.config import fileConfig
 import settings
@@ -11,12 +11,12 @@ bot = telegram.Bot(settings.TELEGRAM_TOKEN)
 
 
 def send_message(message: str):
-    data = bot.send_message(text=message, chat_id=settings.TELEGRAM_CHAT_ID)
-    send_status = data.get('ok', False)
-    if send_status:
-        logger.info('Send was ok')
-    else:
-        logger.warning('Problem with the sending')
-        logger.warning(data)
-
-    return send_status
+    # Make a photo to send it
+    os.system('fswebcam -r 1280x720 --no-banner ./last_sighting.jpg')
+    with open('./last_sighting.jpg', 'rb') as photo:
+        bot.send_photo(
+            chat_id=settings.TELEGRAM_CHAT_ID,
+            photo=photo,
+            caption=message,
+            filename='last_sighting.jpg'
+        )
