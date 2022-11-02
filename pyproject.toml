@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "birdhouse"
+version = "0.1.0"
+description = ""
+authors = ["martinsenniors <martin.galdeano@senniors.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pyserial = "^3.5"
+requests = "^2.28.1"
+pysqlite3 = "^0.4.7"
+SQLAlchemy = "^1.4.42"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
