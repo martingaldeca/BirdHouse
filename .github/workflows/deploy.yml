@@ -3,7 +3,7 @@ on: [ push ]
 name: Build backend images
 
 jobs:
-  test:
+  tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
