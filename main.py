@@ -11,17 +11,27 @@ logger = logging.getLogger()
 
 if __name__ == '__main__':
 
+    logger.info('Starting bird house')
+
     # Start database
+    logger.info('Initializing database')
     from database.database import init_db, Sighting, db_session
 
     init_db()
+    logger.info('Database initialized')
 
+    # Get serial port
+    logger.info(
+        f'Getting serial port: "{settings.SERIAL_PORT}" with baud rate: "settings.SERIAL_BAUD_RATE" and timeout: '
+        f'{settings.SERIAL_TIMEOUT}'
+    )
     serial_port = serial.Serial(
         settings.SERIAL_PORT,
         baudrate=settings.SERIAL_BAUD_RATE,
         timeout=settings.SERIAL_TIMEOUT
     )
 
+    logger.info('Starting main loop')
     while True:
         data = serial_port.readline().decode().replace('\r\n', '')
         if data:
