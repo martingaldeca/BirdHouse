@@ -1,6 +1,5 @@
 from unittest import TestCase, mock
 
-
 from messages.telegram import send_message
 
 
@@ -28,5 +27,3 @@ class SendMessageTest(TestCase):
                 self.assertEqual(send_message('test_message'), expected_result)
                 self.assertEqual(mock_logger_warning.call_count, expected_warning_count)
                 self.assertEqual(mock_logger_info.call_count, expected_info_count)
-
-
