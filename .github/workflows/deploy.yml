@@ -18,6 +18,7 @@ jobs:
       - name: Pass tests
         run: |
           poetry install --no-interaction
+          touch settings/testing.py
           poetry run pytest -c pytest.ini --maxfail=5
   flake8:
     runs-on: ubuntu-latest
