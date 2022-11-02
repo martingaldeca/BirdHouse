@@ -18,7 +18,7 @@ jobs:
       - name: Pass tests
         run: |
           poetry install --no-interaction
-          pytest -c pytest.ini --maxfail=5
+          poetry run pytest -c pytest.ini --maxfail=5
   flake8:
     runs-on: ubuntu-latest
     steps:
@@ -34,4 +34,4 @@ jobs:
       - name: Pass tests
         run: |
           poetry install --no-interaction
-          flake8
+          poetry run flake8
