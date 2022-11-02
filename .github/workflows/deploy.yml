@@ -1,0 +1,21 @@
+on: [ push ]
+
+name: Build backend images
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Pass tests
+        run: |
+          pytest -c pytest.ini --maxfail=5
+  flake8:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Pass tests
+        run: |
+          flake8

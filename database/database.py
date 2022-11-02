@@ -32,7 +32,7 @@ class Sighting(Model):
     date = Column(DateTime(), default=datetime.now())
     message_send = Column(Boolean(), default=True)
 
-    def __str(self):
+    def __str__(self):
         return f'{self.id} - {self.date} - {self.message_send}'
 
     @property
