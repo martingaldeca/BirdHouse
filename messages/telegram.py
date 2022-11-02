@@ -11,7 +11,6 @@ logger = logging.getLogger()
 def send_message(message: str):
     bot = telegram.Bot(settings.TELEGRAM_TOKEN)
     # Make a photo to send it
-    os.system('fswebcam -r 1280x720 --no-banner ./last_sighting.jpg')
     with open('./last_sighting.jpg', 'rb') as photo:
         bot.send_photo(
             chat_id=settings.TELEGRAM_CHAT_ID,
