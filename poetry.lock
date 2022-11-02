@@ -7,6 +7,32 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "apscheduler"
+version = "3.6.3"
+description = "In-process task scheduler with Cron-like capabilities"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+pytz = "*"
+six = ">=1.4.0"
+tzlocal = ">=1.2"
+
+[package.extras]
+asyncio = ["trollius"]
+doc = ["sphinx", "sphinx-rtd-theme"]
+gevent = ["gevent"]
+mongodb = ["pymongo (>=2.8)"]
+redis = ["redis (>=3.0)"]
+rethinkdb = ["rethinkdb (>=2.4.0)"]
+sqlalchemy = ["sqlalchemy (>=0.8)"]
+testing = ["pytest", "pytest-cov", "pytest-tornado5", "mock", "pytest-asyncio (<0.6)", "pytest-asyncio"]
+tornado = ["tornado (>=4.3)"]
+twisted = ["twisted"]
+zookeeper = ["kazoo"]
+
+[[package]]
 name = "asttokens"
 version = "2.1.0"
 description = "Annotate AST trees with source code positions"
@@ -41,6 +67,25 @@ description = "Specifications for callback functions passed in to an API"
 category = "main"
 optional = false
 python-versions = "*"
+
+[[package]]
+name = "backports.zoneinfo"
+version = "0.2.1"
+description = "Backport of the standard library zoneinfo module"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.extras]
+tzdata = ["tzdata"]
+
+[[package]]
+name = "cachetools"
+version = "4.2.2"
+description = "Extensible memoizing collections and decorators"
+category = "main"
+optional = false
+python-versions = "~=3.5"
 
 [[package]]
 name = "certifi"
@@ -384,6 +429,46 @@ tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
 testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "xmlschema"]
 
 [[package]]
+name = "python-telegram-bot"
+version = "13.14"
+description = "We have made you a wrapper you can't refuse"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+APScheduler = "3.6.3"
+cachetools = "4.2.2"
+certifi = "*"
+pytz = ">=2018.6"
+tornado = "6.1"
+
+[package.extras]
+json = ["ujson"]
+passport = ["cryptography (!=3.4,!=3.4.1,!=3.4.2,!=3.4.3)"]
+socks = ["pysocks"]
+
+[[package]]
+name = "pytz"
+version = "2022.6"
+description = "World timezone definitions, modern and historical"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "pytz-deprecation-shim"
+version = "0.1.0.post0"
+description = "Shims to make deprecation of pytz easier"
+category = "main"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,>=2.7"
+
+[package.dependencies]
+"backports.zoneinfo" = {version = "*", markers = "python_version >= \"3.6\" and python_version < \"3.9\""}
+tzdata = {version = "*", markers = "python_version >= \"3.6\""}
+
+[[package]]
 name = "requests"
 version = "2.28.1"
 description = "Python HTTP for Humans."
@@ -474,6 +559,14 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "tornado"
+version = "6.1"
+description = "Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed."
+category = "main"
+optional = false
+python-versions = ">= 3.5"
+
+[[package]]
 name = "traitlets"
 version = "5.5.0"
 description = ""
@@ -484,6 +577,31 @@ python-versions = ">=3.7"
 [package.extras]
 docs = ["myst-parser", "pydata-sphinx-theme", "sphinx"]
 test = ["pre-commit", "pytest"]
+
+[[package]]
+name = "tzdata"
+version = "2022.6"
+description = "Provider of IANA time zone data"
+category = "main"
+optional = false
+python-versions = ">=2"
+
+[[package]]
+name = "tzlocal"
+version = "4.2"
+description = "tzinfo object for the local timezone"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+"backports.zoneinfo" = {version = "*", markers = "python_version < \"3.9\""}
+pytz-deprecation-shim = "*"
+tzdata = {version = "*", markers = "platform_system == \"Windows\""}
+
+[package.extras]
+devenv = ["black", "pyroma", "pytest-cov", "zest.releaser"]
+test = ["pytest-mock (>=3.3)", "pytest (>=4.3)"]
 
 [[package]]
 name = "urllib3"
@@ -509,13 +627,16 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "5dd34449b0255fbd4c2548123c8f98712233f6965d1fd0d331adfc8088c54961"
+content-hash = "5a0e01ae655cfa3f23c52ac68f383d3a0038b17733431ab7afe766391608980a"
 
 [metadata.files]
 appnope = []
+apscheduler = []
 asttokens = []
 attrs = []
 backcall = []
+"backports.zoneinfo" = []
+cachetools = []
 certifi = []
 charset-normalizer = []
 colorama = []
@@ -546,12 +667,18 @@ pyparsing = []
 pyserial = []
 pysqlite3 = []
 pytest = []
+python-telegram-bot = []
+pytz = []
+pytz-deprecation-shim = []
 requests = []
 six = []
 sqlalchemy = []
 stack-data = []
 toml = []
 tomli = []
+tornado = []
 traitlets = []
+tzdata = []
+tzlocal = []
 urllib3 = []
 wcwidth = []

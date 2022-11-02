@@ -2,17 +2,16 @@ import requests
 import logging
 from logging.config import fileConfig
 import settings
+import telegram
 
 fileConfig('logs/logging_config.ini')
 logger = logging.getLogger()
 
+bot = telegram.Bot(settings.TELEGRAM_TOKEN)
+
 
 def send_message(message: str):
-    url = (
-        f"https://api.telegram.org/bot{settings.TELEGRAM_TOKEN}/sendMessage?chat_id="
-        f"{settings.TELEGRAM_CHAT_ID}&text={message}"
-    )
-    data = requests.get(url).json()
+    data = bot.send_message(text=message, chat_id=settings.TELEGRAM_CHAT_ID)
     send_status = data.get('ok', False)
     if send_status:
         logger.info('Send was ok')

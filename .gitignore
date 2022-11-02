@@ -214,3 +214,4 @@ cython_debug/
 ### Project excludes
 logs/birdHouse.log
 database/birdHouse.db
+settings/production.py
