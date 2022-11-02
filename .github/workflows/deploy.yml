@@ -51,8 +51,9 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd BirdHouse
-            git pull
+            git pull --ff-only 
             rm settings/production.py
-            echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }}\n >> settings/production.py
-            echo TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }}\n >> settings/production.py
-            echo TELEGRAM_SIGHTING_MESSAGE=${{ secrets.TELEGRAM_SIGHTING_MESSAGE }}\n >> settings/production.py
+            echo TELEGRAM_TOKEN=${{ secrets.TELEGRAM_TOKEN }} >> settings/production.py
+            echo TELEGRAM_CHAT_ID=${{ secrets.TELEGRAM_CHAT_ID }} >> settings/production.py
+            echo TELEGRAM_SIGHTING_MESSAGE=${{ secrets.TELEGRAM_SIGHTING_MESSAGE }} >> settings/production.py
+            python main.py
