@@ -13,7 +13,7 @@ class SendMessageTest(TestCase):
             Bot, 'send_photo'
         ) as mock_send_photo, mock.patch(
             'builtins.open', mock.mock_open(read_data='data')
-        ):
+        ), mock.patch.object(Bot, '_validate_token'):
             message = 'test_message'
             send_message(message)
             self.assertEqual(mock_system.call_count, 1)
