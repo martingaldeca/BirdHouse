@@ -1,6 +1,4 @@
 import requests
-import settings
-import serial
 import logging
 from logging.config import fileConfig
 import settings

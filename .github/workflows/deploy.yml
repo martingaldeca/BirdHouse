@@ -31,7 +31,7 @@ jobs:
           virtualenvs-create: true
           virtualenvs-in-project: false
           installer-parallel: true
-      - name: Pass tests
+      - name: Pass flake8
         run: |
           poetry install --no-interaction
           poetry run flake8
