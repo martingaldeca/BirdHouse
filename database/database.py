@@ -1,4 +1,6 @@
 from datetime import datetime
+import logging
+
 from sqlalchemy import (
     create_engine, Column, Integer, DateTime, Boolean,
 )
@@ -6,6 +8,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 import settings
+
+logger = logging.getLogger(__name__)
 
 engine = create_engine('sqlite:///database/birdHouse.db')
 db_session = scoped_session(
@@ -18,7 +22,9 @@ db_session = scoped_session(
 
 
 def init_db():
+    logger.info('Initializing database')
     Model.metadata.create_all(bind=engine)
+    logger.info('Database initialized')
 
 
 Model = declarative_base(name='Model')
