@@ -63,6 +63,7 @@ jobs:
             echo TELEGRAM_CHAT_ID="${{ secrets.TELEGRAM_CHAT_ID }}" >> settings/production.py
             echo TELEGRAM_SIGHTING_MESSAGE="${{ secrets.TELEGRAM_SIGHTING_MESSAGE }}" >> settings/production.py
             echo API_KEY="${{ secrets.API_KEY }}" >> settings/production.py
+            echo LOG_LEVEL="${{ secrets.LOG_LEVEL }}" >> settings/production.py
             touch settings/testing.py
                         
             echo "Killing previous"

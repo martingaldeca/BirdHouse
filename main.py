@@ -23,6 +23,7 @@ async def startup_event():
 
 @app.get('/ping')
 async def root():
+    logger.info('Ping ok')
     return 'Ok'
 
 
@@ -41,6 +42,7 @@ async def sighting():
     message_send = False
     if not last_sighting or not last_sighting.recently_sighting:
         message_send = True
+        logger.info('Sending message with sighting')
         send_message(settings.TELEGRAM_SIGHTING_MESSAGE)
 
     # Save the sighting to the database
@@ -57,7 +59,8 @@ async def sighting():
 @app.get('/switch_light')
 async def switch_light():
     settings.LIGHT_ACTIVE = not settings.LIGHT_ACTIVE
-    return f'New value {settings.LIGHT_ACTIVE}'
+    logger.info(f'New light value {settings.LIGHT_ACTIVE}')
+    return f'New light value {settings.LIGHT_ACTIVE}'
 
 
 @app.get('/light_value')
@@ -66,4 +69,4 @@ async def light_value():
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000, log_level=settings.LOG_LEVEL)

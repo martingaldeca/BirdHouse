@@ -1,3 +1,6 @@
+# LOG LEVEL
+LOG_LEVEL = 'debug'
+
 # API
 API_KEY = 'test-token'
 
