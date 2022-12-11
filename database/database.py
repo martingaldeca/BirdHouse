@@ -1,6 +1,7 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 
+import pytz
 from sqlalchemy import (
     create_engine, Column, Integer, DateTime, Boolean,
 )
@@ -34,7 +35,7 @@ Model.query = db_session.query_property()
 class Sighting(Model):
     __tablename__ = 'sighting'
     id = Column(Integer(), primary_key=True)
-    date = Column(DateTime(), default=datetime.now())
+    date = Column(DateTime(timezone=True), default=datetime.now(timezone.utc))
     message_send = Column(Boolean(), default=True)
 
     def __str__(self):
@@ -42,6 +43,6 @@ class Sighting(Model):
 
     @property
     def recently_sighting(self):
-        if settings.RECENTLY_SIGHTING < (datetime.now() - self.date).total_seconds():
+        if settings.RECENTLY_SIGHTING < (datetime.now(timezone.utc).replace(tzinfo=None) - self.date).total_seconds():
             return False
         return True

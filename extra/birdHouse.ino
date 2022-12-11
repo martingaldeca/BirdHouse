@@ -4,15 +4,18 @@
 
 
 int sensor = D5;
-int led = 2;
+int led = D4;
+int light = D7;
 int sensorValue = 0;
 bool active = false;
 char apiPath[50];
 char auxApiPath[50];
 char apiPing[50];
 char apiSighting[50];
-char apiKey[100];
+char apiLightValue[50];
 bool res;
+bool lightActive = false;
+
 
 void blink() {
   for (int i = 0; i <= 5; i++) {
@@ -23,12 +26,56 @@ void blink() {
   }
 }
 
+void checkLight() {
+  WiFiClient client;
+  HTTPClient http;
+  http.begin(client, apiLightValue);
+  int httpCode = http.GET();
+  String payload = http.getString();
+  if (payload == "true" && !lightActive){
+    lightActive = true;
+    Serial.println("Switching on light");
+    digitalWrite(light, HIGH);
+  } else if (payload == "false" && lightActive) {
+    lightActive = false;
+    Serial.println("Switching off light");
+    digitalWrite(light, LOW);
+  }
+}
+
+void sighting() {
+    Serial.println("Active");
+
+    // Set the API get
+    WiFiClient client;
+    HTTPClient http;
+    http.begin(client, apiSighting);
+    int httpCode = http.GET();
+    String payload = http.getString();
+    if (httpCode == 200) {
+        Serial.print("Sighting received: ");
+        Serial.println(payload);
+    }
+    else {
+        Serial.print("Sighting problem, code: ");
+        Serial.println(httpCode);
+        Serial.print("Payload: ");
+        Serial.println(payload);
+    }
+    active = true;
+}
+
 void setup() {
 
   // Active LED until configuration is ok
   pinMode(sensor, INPUT);
   pinMode(led, OUTPUT);
+  pinMode(light, OUTPUT);
   blink();
+
+  // Light start high
+  pinMode(light, OUTPUT);
+  digitalWrite(light, LOW);
 
   // Setup wifi manager
   WiFi.mode(WIFI_STA);
@@ -38,10 +85,8 @@ void setup() {
   wm.resetSettings();  // Comment this in production
 
   // Set the parameters
-  WiFiManagerParameter apiPathTextBox("ip_text", "Set the API url", "http://192.168.1.1", 50);
+  WiFiManagerParameter apiPathTextBox("ip_text", "Set the API url", "http://192.168.1.1:8000", 50);
   wm.addParameter(&apiPathTextBox);
-  WiFiManagerParameter apiKeyTextBox("api_key_text", "Set the API API key", "Your api-key", 100);
-  wm.addParameter(&apiKeyTextBox);
 
   if(!wm.autoConnect("BirdHouseConnect","password")) {
     Serial.println("Failed to connect");
@@ -54,7 +99,6 @@ void setup() {
     Serial.println(WiFi.localIP());
 
     strncpy(apiPath, apiPathTextBox.getValue(), sizeof(apiPath));
-    strncpy(apiKey, apiKeyTextBox.getValue(), sizeof(apiKey));
 
     Serial.print("Ping API server address: ");
     Serial.println(apiPath);
@@ -66,13 +110,15 @@ void setup() {
     strcpy(apiPing, strncat(auxApiPath, "/ping", 106));
     strcpy(auxApiPath, apiPath);
     strcpy(apiSighting, strncat(auxApiPath, "/sighting", 110));
-    strcpy(apiKey, strncat("Bearer ", apiKey, 58));
-    Serial.println(apiKey);
+    strcpy(auxApiPath, apiPath);
+    strcpy(apiLightValue, strncat(auxApiPath, "/light_value", 110));
+
     Serial.println(apiPing);
     Serial.println(apiSighting);
+    Serial.println(apiLightValue);
 
     http.begin(client, apiPing);
-    http.addHeader("Authorization", apiKey);
+    Serial.println(http.headers());
 
     int httpCode = http.GET();
     if (httpCode == 200) {
@@ -94,30 +140,13 @@ void setup() {
 
 void loop() {
 
-  sensorValue = digitalRead(sensor);
+  // Check for light
+  checkLight();
 
+  sensorValue = digitalRead(sensor);
   if (sensorValue && !active)
   {
-    Serial.println("Active");
-
-    // Set the API get
-    WiFiClient client;
-    HTTPClient http;
-    http.begin(client, apiSighting);
-    http.addHeader("Authorization", apiKey);
-    int httpCode = http.GET();
-    String payload = http.getString();
-    if (httpCode == 200) {
-        Serial.print("Sighting received: ");
-        Serial.println(payload);
-    }
-    else {
-        Serial.print("Sighting problem, code: ");
-        Serial.println(httpCode);
-        Serial.print("Payload: ");
-        Serial.println(payload);
-    }
-    active = true;
+    sighting();
   }
   else if (!sensorValue && active)
   {

@@ -22,12 +22,12 @@ async def startup_event():
     logger.info('Bird house started')
 
 
-@app.get('/ping', dependencies=[Security(auth.api_key_auth)])
+@app.get('/ping')
 async def root():
     return 'Ok'
 
 
-@app.get('/sighting', dependencies=[Security(auth.api_key_auth)])
+@app.get('/sighting')
 async def sighting():
 
     # Get the last sighting with message send = True and if is not a recently sighting or there wasn't previous
@@ -53,6 +53,17 @@ async def sighting():
         'received': True,
         'message_send': message_send
     }
+
+
+@app.get('/switch_light')
+async def switch_light():
+    settings.LIGHT_ACTIVE = not settings.LIGHT_ACTIVE
+    return f'New value {settings.LIGHT_ACTIVE}'
+
+
+@app.get('/light_value')
+async def switch_light():
+    return settings.LIGHT_ACTIVE
 
 
 if __name__ == "__main__":
