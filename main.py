@@ -3,10 +3,9 @@ import logging
 from fastapi.security import OAuth2PasswordBearer
 import uvicorn
 
-import auth
 from messages.telegram import send_message
 import settings
-from fastapi import FastAPI, Security
+from fastapi import FastAPI
 from database.database import init_db, Sighting, db_session
 
 logger = logging.getLogger(__name__)
@@ -62,7 +61,7 @@ async def switch_light():
 
 
 @app.get('/light_value')
-async def switch_light():
+async def light_value():
     return settings.LIGHT_ACTIVE
 
 

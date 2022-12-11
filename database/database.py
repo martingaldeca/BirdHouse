@@ -1,7 +1,6 @@
 from datetime import datetime, timezone
 import logging
 
-import pytz
 from sqlalchemy import (
     create_engine, Column, Integer, DateTime, Boolean,
 )
