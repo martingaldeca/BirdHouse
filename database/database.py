@@ -42,6 +42,9 @@ class Sighting(Model):
 
     @property
     def recently_sighting(self):
-        if settings.RECENTLY_SIGHTING < (datetime.now(timezone.utc).replace(tzinfo=None) - self.date).total_seconds():
-            return False
-        return True
+        return (
+            settings.RECENTLY_SIGHTING
+            >= (
+                datetime.now(timezone.utc).replace(tzinfo=None) - self.date
+            ).total_seconds()
+        )
